@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- <style type="text/tailwindcss">
+      @theme {
+        --color-clifford: #da373d;
+      }
+    </style> -->
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<header class="site-header bg-white " >
+    <div class="container header-content min-h-88px flex justify-center gap-28px items-center ">
+    <a
+        class="brand flex min-h-88px items-center justify-center gap-12px text-base font-extrabold "
+        href="voitures.html"
+        aria-label="AutoPark — Gestion du parc"
+    >
+        <span class="brand-mark flex justify-center items-center w-44px h-44px rounded-md bg-blue-500 text-xl text-white " aria-hidden="true">A<span>.</span></span>
+        <span>AutoPark<small class="block text-xs text-gray-500">ATLAS AUTO</small></span>
+    </a>
+    <nav aria-label="Navigation principale" class="flex gap-8px">
+        <!-- index.html est le dashboard à créer par l'apprenant. -->
+        <a href="index.html" class="p-11-17 rounded-sm text-gray-500 font-bold">Dashboard</a>
+        <a href="voitures.html" class="p-11-17 rounded-sm text-gray-500 font-bold" aria-current="page">Gestion du parc</a>
+    </nav>
+    <span class="agency-label text-gray-500 text-gray-500 hidden">Agence de location</span>
+    </div>
+</header>
+<main>
+    <section class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 m-5 p-5">
+
+        <article class="bg-violet-200 border-1 border-solid border-black rounded-md">
+            <div class="image">
+            <img src="images/car-solid-full.svg" class="w-20 bg-white border-2 border-solid border-black rounded-full">
+            </div>
+            <h2 class="text-violet-800">total</h2>
+            <p></p>
+        </article>
+        <article class="bg-green-200 border-1 border-solid border-black rounded-md   gap-5">
+            <img src="images/check-solid-full.svg" class="w-20 bg-white border-2 border-solid border-black rounded-full" >
+            <h2 class="text-green-800 ">Disponibles</h2>
+            <p></p>
+        </article>
+        <article class="bg-blue-200 border-1 border-solid border-black rounded-md">
+            <img src="images/key-solid-full.svg" class="w-20 bg-white border-2 border-solid border-black rounded-full">
+            <h2 class="text-blue-800">Louées</h2>
+            <p></p>
+        </article>
+        <article class="bg-orange-100 border-1 border-solid border-black rounded-md">
+            <img src="images/wrench-solid-full.svg" class="w-20 bg-white border-2 border-solid border-black rounded-full">
+            <h2 class="text-orange-800">En maintenance</h2>
+            <p></p>
+        </article>
+    </section>
+
+</main>
+</html>
+
+
+
+
+
