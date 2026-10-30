@@ -56,7 +56,10 @@ let tab = [
   }
   
 ]
-let tabRecherche=[...tab];
+let arrayBackup=[...tab];
+
+
+localStorage.setItem("voiture",JSON.stringify(tab))
 
 
 const vmarque = document.getElementById("marque")
@@ -74,7 +77,10 @@ const triPrix =document.getElementById("tri-prix")
 const buttonReinitialiser =document.getElementById("reinitialiser-filtres")
 const buttonAnneler =document.getElementById("annuler-modification")
 
-
+const erreurMarque =document.getElementById("erreur-marque")
+const erreurModele =document.getElementById("erreur-modele")
+const erreurImmatriculation =document.getElementById("erreur-immatriculation")
+const erreurCategorie =document.getElementById("erreur-categorie")
 
 let numbre=7
 let indexVoitureModifire=""
@@ -82,19 +88,22 @@ let rechercheInput=""
 let filtreStatutInput=""
 let filtreCategorieOption=""
 let triPrixOptin=""
+let allChampValid=true
 
-let nombreVoitureTotal=0
-let nombreVoitureDisponible=0
-let nombreVoitureLouée=0
-let nombreVoitureEnMaintenance=0
 
-const voitureMarque =vmarque.value
+const voitureMarque =vmarque.value;
 const voitureModele =vmodele.value
 const voitureImmatriculation =vimmatriculation.value
 const voitureCategorie =vcategorie.value
 const voiturePrixJour =vprixJour.value
 const voitureStatus =vstatut.value
 
+if(voitureMarque==="" || voitureModele==="" ||
+ voitureImmatriculation===""|| (!/^AUTO-[0-9]{3}$/.test(voitureImmatriculation))|| 
+voitureCategorie==="" || voiturePrixJour==="" || voitureStatus===""){
+  allChampValid=false
+  console.log(allChampValid)
+}
 
 const voitureInformation = {
   "id":numbre,
@@ -108,6 +117,19 @@ const voitureInformation = {
 
 afficherVoiture()
 
+buttonReinitialiser.addEventListener("click", (e) =>{
+  e.preventDefault()
+  recherche.value=""
+  filtreStatut.value=""
+  filtreCategorie.value=""
+  triPrix.value=""
+  arrayBackup=[...tab];
+  afficherVoiture()
+  console.log(arrayBackup)
+   console.log(tab)
+
+})
+
 buttonAnneler.addEventListener("click",(e) =>{
   vmarque.value=""
   vmodele.value=""
@@ -120,16 +142,20 @@ buttonAnneler.addEventListener("click",(e) =>{
 
 buttonAjouter.addEventListener("click", (e) => {
   e.preventDefault()
-  tabRecherche=[...tab];
-  console.log(tab)
-  console.log(tabRecherche)
+  arrayBackup=[...tab];
+  localStorage.setItem("voiture",JSON.stringify(tab))
   if(indexVoitureModifire !==""){
     enrejistrerModifiction()
     
     
     
   }else{
-    ajouterVoiture()
+    if(allChampValid=true){
+      ajouterVoiture()
+    }else{
+      return
+    }
+    
     
 
   }
@@ -158,32 +184,36 @@ rechercheInput=event.target.value.toLowerCase().trim();
 
 triPrix.addEventListener("change" ,(e) => {
   triPrixOptin =e.target.value.toLowerCase().trim();
-  if(triPrixOptin==="croissant"){
+  if(triPrixOptin==="décroissant"){
     tab.sort((a,b)=>a.prixJour - b.prixJour)
+    afficherVoiture()
   }else if(triPrixOptin=== "croissant"){
     tab.sort((a,b) => b.prixJour - a.prixJour)
+    afficherVoiture();
   }else{
-    console.log(j)
+    tab.sort((a,b) => a.id- b.id)
+    afficherVoiture();
+    console.log("fff");
+    
   }
-  afficherVoiture()
 })
 
 function filtrage(){
-  tab =tabRecherche.filter(v =>
+  tab =arrayBackup.filter(v =>
   (v.marque.toLowerCase().trim().includes(rechercheInput)|| 
   v.modele.toLowerCase().trim().includes(rechercheInput)|| 
   v.immatriculation.toLowerCase().trim().includes(rechercheInput))
   &&( filtreStatut.value ==="" || v.statut.toLowerCase().trim() === filtreStatutInput)
   && (filtreCategorie.value ==="" || v.categorie.toLowerCase().trim() ===filtreCategorieOption)
   )
-  console.log(tab)
+ 
 }
 
 
 
 function afficherVoiture() {
 
-  tableauVoitures.innerHTML = ""
+   tableauVoitures.innerHTML = ""
   
     tab.forEach((v) => {
       créationVoiture(v)
@@ -269,7 +299,8 @@ function créationVoiture(v){
       const index =tab.findIndex(i=>i.immatriculation===a.immatriculation)
 
       tab.splice(index,1)
-      tabRecherche=[...tab];
+      arrayBackup=[...tab];
+      localStorage.setItem("voiture",JSON.stringify(tab))
       afficherVoiture()
     }
 
@@ -320,14 +351,13 @@ function enrejistrerModifiction(){
 function ajouterVoiture(){
   numbre++
   
-    console.log(vmarque.value)
     const voitureMarque =vmarque.value
     const voitureModele =vmodele.value
     const voitureImmatriculation =vimmatriculation.value
     const voitureCategorie =vcategorie.value
     const voiturePrixJour =vprixJour.value
     const voitureStatus =vstatut.value
-
+   
     const voitureInformation = {
       "id":numbre,
       marque:voitureMarque,
@@ -341,7 +371,8 @@ function ajouterVoiture(){
 
     tab.push(voitureInformation)
     viderForm()
-    tabRecherche=[...tab]
+    arrayBackup=[...tab]
+    localStorage.setItem("voiture",JSON.stringify(tab))
     afficherVoiture()
 }
 
@@ -355,21 +386,3 @@ function viderForm(){
   vstatut.value=""
 }
 
-
-
-
-tab.forEach(v =>{
-nombreVoitureTotal++
-if(v.statut=="Disponible"){
-  nombreVoitureDisponible++
-}else if(v.statut==="Louée"){
-  nombreVoitureLouée++
-}else{
-  nombreVoitureEnMaintenance++
-}
-
-})
-console.log(nombreVoitureDisponible)
-console.log(nombreVoitureLouée)
-console.log(nombreVoitureEnMaintenance)
-console.log(nombreVoitureTotal)

@@ -13,54 +13,71 @@
     <title>Document</title>
 </head>
 <body>
-    
-</body>
-<header class="site-header bg-white " >
-    <div class="container header-content min-h-88px flex justify-center gap-28px items-center ">
+<header class="site-header bg-white w-full border border-gray-200" >
+    <div class="container header-content w-full px-10 py-7 flex justify-between gap-28px items-center ">
     <a
         class="brand flex min-h-88px items-center justify-center gap-12px text-base font-extrabold "
         href="voitures.html"
         aria-label="AutoPark — Gestion du parc"
     >
-        <span class="brand-mark flex justify-center items-center w-44px h-44px rounded-md bg-blue-500 text-xl text-white " aria-hidden="true">A<span>.</span></span>
+        <span class="brand-mark flex justify-center items-center w-14 h-14 rounded-2xl bg-blue-700 text-4xl text-white font-bold " aria-hidden="true">A<span>.</span></span>
         <span>AutoPark<small class="block text-xs text-gray-500">ATLAS AUTO</small></span>
     </a>
-    <nav aria-label="Navigation principale" class="flex gap-8px">
-        <!-- index.html est le dashboard à créer par l'apprenant. -->
-        <a href="index.html" class="p-11-17 rounded-sm text-gray-500 font-bold">Dashboard</a>
-        <a href="voitures.html" class="p-11-17 rounded-sm text-gray-500 font-bold" aria-current="page">Gestion du parc</a>
+    <nav aria-label="Navigation principale" class="flex gap-8 items-center">
+     
+        <a href="index.html" class="hover:bg-indigo-50 hover:text-blue-700 text-gray-600 rounded-sm px-16 font-semibold">Dashboard</a>
+        <a href="voitures.html" class="hover:bg-indigo-50 hover:text-blue-700 text-gray-600 rounded-sm px-6 font-semibold" aria-current="page">Gestion du parc</a>
     </nav>
     <span class="agency-label text-gray-500 text-gray-500 hidden">Agence de location</span>
     </div>
 </header>
-<main>
-    <section class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 m-5 p-5">
+<main class=" w-auto">
+    <section class="border-1 botder-solid rounded-md w-full grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 m-5 p-5">
 
-        <article class="bg-violet-200 border-1 border-solid border-black rounded-md">
+        <article class="bg-violet-200 border-1 border-solid border-black rounded-md text-center">
             <div class="image">
-            <img src="images/car-solid-full.svg" class="w-20 bg-white border-2 border-solid border-black rounded-full">
+            <img src="images/car-solid-full.svg" class="w-20 bg-violet-500 border-2 border-solid border-black rounded-full">
             </div>
-            <h2 class="text-violet-800">total</h2>
-            <p></p>
+            <h2 class="text-center text-violet-800 font-bold">total</h2>
+            <p id="VoitureTotal" class="text-2xl font-bold "></p>
+            <p>voiture dans le parc</p>
         </article>
-        <article class="bg-green-200 border-1 border-solid border-black rounded-md   gap-5">
-            <img src="images/check-solid-full.svg" class="w-20 bg-white border-2 border-solid border-black rounded-full" >
-            <h2 class="text-green-800 ">Disponibles</h2>
-            <p></p>
+        <article class="bg-green-200 border-1 border-solid border-black rounded-md text-center">
+            <img src="images/check-solid-full.svg" class="w-20 bg-green-500 border-2 border-solid border-black rounded-full" >
+            <h2 class="text-center text-green-800 font-bold">Disponibles</h2>
+            <p id="VoitureDisponible" class="text-2xl font-bold "></p>
+            <p>voiture disponible</p>
         </article>
-        <article class="bg-blue-200 border-1 border-solid border-black rounded-md">
-            <img src="images/key-solid-full.svg" class="w-20 bg-white border-2 border-solid border-black rounded-full">
-            <h2 class="text-blue-800">Louées</h2>
-            <p></p>
+        <article class="bg-blue-200 border-1 border-solid border-black rounded-md text-center w-full">
+            <img src="images/key-solid-full.svg" class=" w-20 bg-blue-500 border-2 border-solid border-black rounded-full">
+            <h2 class="text-center text-blue-800 font-bold">Louées</h2>
+            <p id="VoitureLouée" class="text-2xl font-bold "></p>
+            <p>voiture louée</p>
         </article>
-        <article class="bg-orange-100 border-1 border-solid border-black rounded-md">
-            <img src="images/wrench-solid-full.svg" class="w-20 bg-white border-2 border-solid border-black rounded-full">
-            <h2 class="text-orange-800">En maintenance</h2>
-            <p></p>
+        <article class="bg-orange-100 border-1 border-solid border-black rounded-md text-center">
+            <img src="images/wrench-solid-full.svg" class="bg-orange-500 w-20 border-2 border-solid border-black rounded-full">
+            <h2 class="text-center text-orange-800 font-bold">En maintenance</h2>
+            <p id="VoitureEnMaintenance" class="text-2xl font-bold "></p>
+            <p>voiture en maintenance</p>
         </article>
+    </section >
+
+    <section id="totalEtMarque" class="grid grid grid-cols-2 gap-10">
+        <div class="">
+            <div class="bg-green-300">d</div>
+            <div class="bg-blue-300">l</div>
+            <div class="bg-orange-200 ">m</div>
+        </div>
+        <div id="carteTotal" class="border rounded-lg h-20 text-center w-1/2">
+            <p>Total : </p>
+            <p id="prix"></p>
+        </div>
     </section>
 
 </main>
+</body>
+<script type="module" src="js/dashboard.js"></script>
+
 </html>
 
 
