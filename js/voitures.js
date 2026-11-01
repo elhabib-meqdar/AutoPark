@@ -76,11 +76,16 @@ const filtreCategorie =document.getElementById("filtre-categorie")
 const triPrix =document.getElementById("tri-prix")
 const buttonReinitialiser =document.getElementById("reinitialiser-filtres")
 const buttonAnneler =document.getElementById("annuler-modification")
+const formilaire =document.querySelectorAll("#marque", "#modele", "#immatriculation", "#categorie", "#prix-jour", "#statut")
+
+
 
 const erreurMarque =document.getElementById("erreur-marque")
 const erreurModele =document.getElementById("erreur-modele")
 const erreurImmatriculation =document.getElementById("erreur-immatriculation")
 const erreurCategorie =document.getElementById("erreur-categorie")
+const erreurStatut =document.getElementById("erreur-statut")
+const erreurPrixJour =document.getElementById("erreur-prix-jour")
 
 let numbre=7
 let indexVoitureModifire=""
@@ -88,22 +93,17 @@ let rechercheInput=""
 let filtreStatutInput=""
 let filtreCategorieOption=""
 let triPrixOptin=""
-let allChampValid=true
+let allChampValid=false
+
+let voitureMarque =vmarque.value.trim();
+let voitureModele =vmodele.value.trim();
+let voitureImmatriculation =vimmatriculation.value.trim()
+let voitureCategorie =vcategorie.value.trim()
+let voiturePrixJour =vprixJour.value.trim()
+let voitureStatus =vstatut.value.trim()
 
 
-const voitureMarque =vmarque.value;
-const voitureModele =vmodele.value
-const voitureImmatriculation =vimmatriculation.value
-const voitureCategorie =vcategorie.value
-const voiturePrixJour =vprixJour.value
-const voitureStatus =vstatut.value
-
-if(voitureMarque==="" || voitureModele==="" ||
- voitureImmatriculation===""|| (!/^AUTO-[0-9]{3}$/.test(voitureImmatriculation))|| 
-voitureCategorie==="" || voiturePrixJour==="" || voitureStatus===""){
-  allChampValid=false
-  console.log(allChampValid)
-}
+vidChampErreur()
 
 const voitureInformation = {
   "id":numbre,
@@ -115,7 +115,7 @@ const voitureInformation = {
   statut: voitureStatus,
 }
 
-afficherVoiture()
+
 
 buttonReinitialiser.addEventListener("click", (e) =>{
   e.preventDefault()
@@ -123,10 +123,10 @@ buttonReinitialiser.addEventListener("click", (e) =>{
   filtreStatut.value=""
   filtreCategorie.value=""
   triPrix.value=""
-  arrayBackup=[...tab];
+  // arrayBackup=[...tab];
+  tab=[...arrayBackup]
   afficherVoiture()
-  console.log(arrayBackup)
-   console.log(tab)
+
 
 })
 
@@ -141,19 +141,34 @@ buttonAnneler.addEventListener("click",(e) =>{
 })
 
 buttonAjouter.addEventListener("click", (e) => {
+  voitureMarque =vmarque.value.trim()
+  voitureModele =vmodele.value.trim()
+  voitureCategorie =vcategorie.value.trim()
+  voiturePrixJour =vprixJour.value.trim()
+  voitureStatus =vstatut.value.trim()
+  voitureImmatriculation =vimmatriculation.value.trim()
+
+ 
   e.preventDefault()
   arrayBackup=[...tab];
   localStorage.setItem("voiture",JSON.stringify(tab))
+
+
+  validation()
+  
   if(indexVoitureModifire !==""){
     enrejistrerModifiction()
     
     
     
   }else{
-    if(allChampValid=true){
+    if(allChampValid){
       ajouterVoiture()
+     console.log(allChampValid)
+     allChampValid=false
     }else{
-      return
+      console.log("remplir tous les champs")
+      
     }
     
     
@@ -296,7 +311,7 @@ function créationVoiture(v){
     
     function supprission(a){
       
-      const index =tab.findIndex(i=>i.immatriculation===a.immatriculation)
+      let index =tab.findIndex(i=>i.immatriculation===a.immatriculation)
 
       tab.splice(index,1)
       arrayBackup=[...tab];
@@ -350,14 +365,7 @@ function enrejistrerModifiction(){
 }
 function ajouterVoiture(){
   numbre++
-  
-    const voitureMarque =vmarque.value
-    const voitureModele =vmodele.value
-    const voitureImmatriculation =vimmatriculation.value
-    const voitureCategorie =vcategorie.value
-    const voiturePrixJour =vprixJour.value
-    const voitureStatus =vstatut.value
-   
+     
     const voitureInformation = {
       "id":numbre,
       marque:voitureMarque,
@@ -386,3 +394,96 @@ function viderForm(){
   vstatut.value=""
 }
 
+
+ 
+function validation(){
+  allChampValid=true
+  if(voitureMarque.trim()==""){
+    erreurMarque.textContent=("Veullez saisir la marque")
+    // setTimeout(()=>{
+    //   erreurMarque.setAttribute("hidden","")
+    // },3000)
+    allChampValid = false
+  }else{
+    erreurMarque.textConten=""
+  }
+  if(voitureModele.trim()==""){
+    erreurModele.textContent=("Veullez saisir le modele")
+    allChampValid = false
+  }else{
+    erreurModele.textContent=""
+  }
+  if(voitureCategorie.trim()==""){
+    erreurCategorie.textContent=("Veullez choisir une categorie")
+    allChampValid = false
+  }else{
+    erreurCategorie.textConten=""
+  }
+  if(voiturePrixJour.trim()==""){
+    erreurPrixJour.textContent=("Veullez saisir le prix par jour")
+    allChampValid = false
+  }else{
+    erreurPrixJour.textConten=""
+  }
+  if(voitureStatus.trim()==""){
+    erreurStatut.textContent=("Veullez choisir un status")
+    allChampValid = false
+  }else{
+    erreurStatut.textConten=""
+  }
+  if(voitureImmatriculation.trim()==""){
+    erreurImmatriculation.textContent=("Veullez saisir l'immmatriculation")
+    allChampValid = false
+    
+  }else{
+    if(!(/^AUTO-[0-9]{3}$/.test(voitureImmatriculation))){
+      erreurImmatriculation.textContent=("Format incorrect")
+      allChampValid = false
+    }else{
+      erreurImmatriculation.textConten=""
+    }
+    
+  }
+ 
+ console.log(allChampValid)
+}
+
+function vidChampErreur(){
+  vmarque.addEventListener("input", () =>{
+    if(vmarque!==""){
+      erreurMarque.textContent=""
+    }
+  })
+
+  vmodele.addEventListener("input", () =>{
+    if(vmodele.value!==""){
+      erreurModele.textContent=""
+    }
+  })
+
+  vimmatriculation.addEventListener("input", () =>{
+    if(vimmatriculation.value!==""){
+      erreurImmatriculation.textContent=""
+    }
+  })
+
+  vcategorie.addEventListener("input", () =>{
+    if(vcategorie.value!==""){
+      erreurCategorie.textContent=""
+    }
+  })
+
+  vprixJour.addEventListener("input", () =>{
+    if(vprixJour.value!==""){
+      erreurPrixJour.textContent=""
+    }
+  })
+
+  vstatut.addEventListener("input", () =>{
+    if(vstatut.value!==""){
+      erreurStatut.textContent=""
+    }
+  })
+}
+
+afficherVoiture()
