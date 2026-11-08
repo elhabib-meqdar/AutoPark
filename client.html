@@ -12,19 +12,19 @@
     <body >
         
         <header class="w-full site-header bg-white maw-w-none border border-gray-200 ">
-            <div class="w-full px-4 py-4 flex flex-col md:flex-row md:justify-between items-center gap-5  max-w-[1280px] my-0 mx-auto">
+            <div class="w-full px-4 py-4 max-w-[1280px] my-0 mx-auto md:flex flex-col-2 justify-between md:flex-row md:justify-between items-center gap-5  ">
+                
+                <div class="flex flex-col-2 justify-between md:flex-row md:justify-between items-center gap-5  ">
+                    <a href="voitures.html"
+                    class="self-start flex items-center gap-3 no-underline text-[22px] font-extrabold">
 
-                <!-- Logo -->
-                <a href="voitures.html"
-                class="self-start flex items-center gap-3 no-underline text-[22px] font-extrabold">
+                        <span class="flex items-center justify-center w-11 h-11 rounded-2xl bg-blue-700 text-3xl text-white font-bold">A.</span>
 
-                    <span class="flex items-center justify-center w-11 h-11 rounded-2xl bg-blue-700 text-3xl text-white font-bold">A.</span>
-
-                    <span>AutoPark<small class="block text-xs tracking-[2.3px] text-gray-500">ATLAS AUTO</small></span>
-                </a>
-
-                <!-- Navigation -->
-                <nav class="grid grid-cols-3 w-full md:w-auto gap-2 items-center">
+                        <span>AutoPark<small class="block text-xs tracking-[2.3px] text-gray-500">ATLAS AUTO</small></span>
+                    </a>
+                    <button id="menu" class="md:hidden"><i class="fa-solid fa-bars"></i></button>
+               </div>
+                <nav id="nav" class=" flex flex-col items-end hidden md:grid grid-cols-3 w-full md:w-auto gap-2 items-center">
 
                     <a href="index.html"
                         
@@ -39,6 +39,7 @@
                         Ma location</a>
 
                 </nav>
+              
 
                 <span class="hidden lg:block text-xs text-gray-500">
                     Agence de location
@@ -88,16 +89,16 @@
                     </article>
                 </div> 
             </section>
-            <div class="grid grid-cols-1 max-w-[1280px] my-0 mx-auto md:grid grid-cols-[70%_30%] gap-5">
+            <div  class="md:grid grid-cols-[6fr_4fr] gap-5 grid-cols-1 max-w-[1280px] my-0 mx-auto">
                 <div class="border-1 border-solid border-gray-300 rounded-2xl
-                max-w-[1280px] my-0 mx-auto bg-white p-5  mt-5 ">
+               bg-white p-5  mt-5 ">
                 
-                    <section id="formulaireVéhicule" class=" hidden">
+                    <section id="formulaireVéhicule" class=" hidden w-full">
 
                         <p class="text-blue-700 font-bold">01 / VÉHICULE</p>
                         <h2 class="text-[#192B3F] text-2xl font-bold pt-6 pb-5">Choisissez votre véhicule</h2>
                         <p class="text-[#697C94] pb-3">Sélectionnez une voiture disponible et votre période de location.</p>
-                        <div id="listeVéhicules" class="grid grid-cols-1 md:grid grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div id="listeVéhicules" >
 
 
 
@@ -118,7 +119,7 @@
                             </div>
                         </form>
                         <div class="py-4 bg-[#EEF2FF] my-3 rounded-xl my-6">
-                            <p id="information" class="text-blue-600 px-4">Durée : 3 jours. Les dates de début et de fin sont incluses.</p>
+                            <p id="informationDurée" class="text-blue-600 px-4"></p>
                         </div>
                         <hr class="text-gray-300">
                         
@@ -225,10 +226,16 @@
 
 
                 </div>
-                <section id="résuméPrix"class="max-w-[1280px] my-0 mx-auto bg-white p-5  mt-5
-                        border-1 border-solid border-gray-300 rounded-2xl ">
-                    <p class="text-blue-700 font-bold">VOTRE LOCATION</p>
+                <div class=" bg-white p-5  mt-5 border-1 border-solid border-gray-300 rounded-2xl ">
+                    <p class="text-blue-700 font-bold">
+                        VOTRE LOCATION
+                    </p>
+                <section id="résuméPrix"">
+                    
+
+                   
                 </section>
+                </div>
             </div>  
 
         </main>
