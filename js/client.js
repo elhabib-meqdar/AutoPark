@@ -28,6 +28,8 @@
   ]
 
 
+
+
 // 2. SÃ‰LECTION : les choix de l'utilisateur, Ã  actualiser avec les formulaires.
 // Les identifiants correspondent aux id dÃ©finis dans config.
 // Les dates seront des chaÃ®nes au format AAAA-MM-JJ (valeur d'un input date).
@@ -104,9 +106,13 @@ let modesRecuperation= [
 const selectedConfig = {
   etape: 1,
   voitureId: null,
-  marqueModele:"",
+  marque:"",
+  modele:"",
+  categorie:"",
   dateDebut: "",
   dateFin: "",
+  prixAJour:"",
+  durée:"",
   modeRecuperation: "agence",
 
   recuperation: {
@@ -131,10 +137,14 @@ const selectedConfig = {
 }
 
 const listeVéhicules =document.getElementById("listeVéhicules")
-listeVéhicules.classList.add('grid','grid-clos-1','gap-10')
+listeVéhicules.classList.add('grid','grid-cols-1','gap-4','md:grid-cols-2','lg:grid-cols-3')
+// class="grid grid-cols-1   gap-4"
 
 const lieuDeRécupération =document.getElementById("lieuDeRécupération")
-lieuDeRécupération.classList.add('grid','grid-clos-1','gap-3')
+// lieuDeRécupération.classList.add('grid','grid-cols-1','gap-3')
+
+const menu =document.getElementById("menu")
+const nav =document.getElementById("nav")
 
 const formillaireDeRécupiration =document.getElementById("formillaireDeRécupiration")
 const optionsFacultatives =document.getElementById("optionsFacultatives")
@@ -163,8 +173,22 @@ const divEtapUN =document.getElementById("divEtapUN")
 const divEtapDeux =document.getElementById("divEtapDeux")
 const divEtapTrois =document.getElementById("divEtapTrois")
 const divEtapQuatre =document.getElementById("divEtapQuatre")
-
+const durée =document.getElementById("information")
 const résuméPrix =document.getElementById("résuméPrix")
+const informationDurée=document.getElementById("informationDurée")
+
+
+
+menu.addEventListener("click",() =>{
+  nav.classList.toggle("hidden")
+})
+
+const dateDeAujourdHui = new Date()
+  dateDeAujourdHui.setHours(0, 0, 0, 0)
+dateDébut.setAttribute('min',dateDeAujourdHui.toDateString("fr-FR"))
+dateFin.min=dateDeAujourdHui
+
+ console.log(dateDeAujourdHui);
 
 
 let etaps =["etapUn","etapDeux","etapTrois","etapQuatre"]
@@ -174,22 +198,218 @@ let etapeActuelle=etaps[nombre]
 
 
 
-dateDébut.addEventListener("change", (e) =>{
+dateDébut.addEventListener("change", () =>{
+selectedConfig.dateDebut=dateDébut.value
 
-  const d1 = new Date(dateDébut.value);
-  selectedConfig.dateDebut=d1
-  console.log(d1);
-  
+d()
 })
 
-dateFin.addEventListener("change",(e) =>{
+dateFin.addEventListener("change",() =>{
+selectedConfig.dateFin=dateFin.value
+d()
+})
+ 
+ 
 
-  const d2 = new Date(dateFin.value);
-  selectedConfig.dateFin=d2
-  console.log(d2);
+
+  function d() {
+
+  if (
+    selectedConfig.dateDebut == "" &&
+    selectedConfig.dateFin == "" &&
+    selectedConfig.voitureId == null
+  ) {
+    résuméPrix.replaceChildren()
+    return
+  }
+  const d1 = new Date(selectedConfig.dateDebut + "T00:00:00")
+  const d2 = new Date(selectedConfig.dateFin + "T00:00:00")
+
+  if (d2 <= d1) {
+    résuméPrix.replaceChildren()
+    return
+  }
+  selectedConfig.durée =((d2 - d1) / 86400000)+1
   
 
+  locationn();
+}
+
+
+
+function locationn (){
+ 
+  résuméPrix.replaceChildren();
+  if (selectedConfig.marque ==""){
+    return
+  }else{
+
+    
+
+    const marqueEtModele =document.createElement("h2")
+    résuméPrix.append(marqueEtModele)
+    marqueEtModele.textContent=(`${selectedConfig.marque} ${selectedConfig.modele}`)
+    marqueEtModele.classList.add('font-bold','mt-5')
+    marqueEtModele.classList.add('text-3xl','font-bold','text-gray-900','mb-5')
+
+    const categoriEtPrix =document.createElement("p")
+    categoriEtPrix.textContent=(`${selectedConfig.categorie} ${selectedConfig.prixAJour} MAD / jour`)
+    résuméPrix.append(categoriEtPrix)
+    categoriEtPrix.classList.add('text-gray-500','text-base','mb-8')
+  }
+
+
+  if(selectedConfig.dateDebut =="" ||
+    selectedConfig.dateFin =="" ||
+  selectedConfig.marque =="" ){
+      
+      return
+
+  }else{
+
+    
+    informationDurée.textContent=(`Durée : ${selectedConfig.durée} jours. Les dates de début et de fin sont incluses.`)
+    const line=document.createElement("hr")
+    résuméPrix.append(line)
+    line.classList.add('text-gray-200','mb-4')
+
+    const d1 = new Date(selectedConfig.dateDebut + "T00:00:00");
+    const jourDebut=d1.getDate()
+    const tempsDeLocation = document.createElement("p")
+    résuméPrix.append(tempsDeLocation)
+    tempsDeLocation.textContent=(`${jourDebut} →  ${selectedConfig.dateFin}`)
+    tempsDeLocation.classList.add('mb-5')
+  
+
+    const datedéb =document.createElement("p")
+    résuméPrix.append(datedéb)
+    datedéb.textContent=(`${selectedConfig.durée} jours dates incluses`)
+    datedéb.classList.add('font-bold','text-[#192B3F]','mb-5')
+
+    const contuner =document.createElement("div")
+    résuméPrix.append(contuner)
+    contuner.classList.add('grid','grid-cols-2','mb-5')
+
+    const duréeXPrix =document.createElement("p")
+    contuner.append(duréeXPrix)
+    duréeXPrix.textContent=(`Véhicule  ${selectedConfig.durée} X ${selectedConfig.prixAJour} MAD`)
+    duréeXPrix.classList.add('text-base','text-[#697C94]')
+        
+    const résultatsDuréeXPrix=document.createElement("p")
+    contuner.append(résultatsDuréeXPrix)
+    résultatsDuréeXPrix.textContent=(`${selectedConfig.prixAJour * selectedConfig.durée} MAD`)
+    résultatsDuréeXPrix.classList.add(
+    'text-right',
+    'font-bold'
+    )
+
+    const récupération =document.createElement("p")
+    récupération.textContent=("Récupération")
+    contuner.append(récupération)
+    récupération.classList.add(
+    'text-[#697C94]'
+    )
+
+    const récupérationValue =document.createElement("p")
+    récupérationValue.textContent=("Gratuite")
+    contuner.append(récupérationValue)
+    récupérationValue.classList.add('text-xl','font-bold')
+    récupérationValue.classList.add(
+    'text-right',
+    'text-lg',
+    'font-bold',
+    'text-[#192B3F]'
+    )
+
+    const line2=document.createElement("hr")
+    résuméPrix.append(line2)
+    line2.classList.add('text-gray-200','mb-4')
+    
+
+    const totalDiv =document.createElement("div")
+    résuméPrix.append(totalDiv)
+    totalDiv.classList.add('grid','grid-cols-2','mb-5')
+    totalDiv.classList.add(
+    'grid',
+    'grid-cols-2',
+    'items-center',
+    'mb-5'
+    )
+
+    const total =document.createElement("p")
+    totalDiv.append(total)
+    total.textContent=("Total estimé")
+    total.classList.add(
+    'font-bold',
+    'text-[#192B3F]'
+    )
+
+    const totalValue =document.createElement("p")
+    totalValue.textContent=(`${selectedConfig.prixAJour * selectedConfig.durée}`)
+    totalDiv.append(totalValue)
+    totalValue.classList.add(
+    'text-right',
+    'text-3xl',
+    'font-bold',
+    'text-blue-700'
+    )
+
+    const info =document.createElement("p")
+    info.textContent=("Frais de récupération facturés une seule fois.")
+    résuméPrix.append(info)
+    info.classList.add('text-[#697c64]')
+    info.classList.add(
+    'text-gray-400',
+    'text-sm',
+    'mb-5'
+    )
+    const infoDiv =document.createElement("div")
+    résuméPrix.append(infoDiv)
+    infoDiv.classList.add('bg-[#F4F6FA]','py-3','rounded-xl')
+
+    const inform =document.createElement("p")
+    infoDiv.append(inform)
+    inform.textContent=("Une demande, sans paiement en ligne")
+    // infoDiv.append(inform)
+    // inform.textContent=("Une demande, sans paiement en ligne.") 
+    inform.classList.add('text-[#697C94]','text-sm','px-3')
+
+  }
+}
+
+
+
+buttonRecommencer.addEventListener("click",(e) =>{
+  e.preventDefault()
+
+
+  selectedConfig.voitureId=""
+  selectedConfig.marque=""
+  selectedConfig.modele=""
+  selectedConfig.categorie=""
+  selectedConfig.dateDebut=""
+  selectedConfig.dateFin=""
+  selectedConfig.durée=""
+  selectedConfig.prixAJour=""
+
+  
+
+  dateDébut.value=""
+  dateFin.value=""
+
+  listeVéhicules.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.checked = false
+  })
+
+  résuméPrix.replaceChildren()
 })
+
+
+
+
+
+
+
 
 
 
@@ -209,22 +429,86 @@ buttonSuivant.addEventListener("click", (e)=>{
 
 
 
-buttonRecommencer.addEventListener("click", (e)=>{
-   e.preventDefault()
 
-  if(nombre >=0){
-    
-    nombre=nombre-1
-    etapeActuelle=etaps[nombre]
-    styleEtaps()
-
-  }
-})
 styleEtaps()
 
-function styleEtaps (){
+// listeVéhicules
 
-  console.log(nombre)
+affichage()
+récupiration()
+ styleEtaps()
+
+function affichage(){
+  voitures.forEach(voitur => {
+  
+    const voiture =document.createElement("div")
+    listeVéhicules.append(voiture)
+    voiture.classList.add('border-1', 'border-gray-300', 'border-solid','rounded-xl')
+
+    const Sélection =document.createElement("div")
+    voiture.append(Sélection)
+    Sélection.classList.add('p-5')
+    Sélection.classList.add('flex','justify-between')
+    
+
+    const voiturModel =document.createElement("p")
+    Sélection.append(voiturModel)
+    voiturModel.textContent=(voitur.categorie)
+    voiturModel.classList.add('text-blue-700','bg-gray-200','w-20','rounded-md','text-center')
+
+    const voitureRadio =document.createElement("input")
+    Sélection.append(voitureRadio)
+    voitureRadio.classList.add('w-20')
+    voitureRadio.type='radio'
+    voitureRadio.value=voitur.id
+    voitureRadio.name="voiture"
+
+    Sélection.addEventListener(("change"),(e) =>{
+      e.preventDefault()
+  
+      Array.from(listeVéhicules.children).forEach(carte => {
+    carte.classList.remove("border-blue-500");
+    carte.classList.add("border-gray-300");
+  });
+
+
+voiture.classList.remove("border-gray-300");
+  voiture.classList.add("border-blue-500");
+     
+    
+      selectedConfig.voitureId = voitureRadio.value
+      selectedConfig.marque=voitur.marque
+      selectedConfig.modele=voitur.modele
+      selectedConfig.categorie=voitur.categorie
+      selectedConfig.voitureId=voitur.id
+      selectedConfig.prixAJour=(voitur.prixJour)
+      console.log(selectedConfig)
+    console.log(selectedConfig.dateDebut);
+    console.log(selectedConfig.dateFin);
+    d()
+
+    })
+    const voitureMarqueEtModele =document.createElement("p")
+    voiture.append(voitureMarqueEtModele)
+    voitureMarqueEtModele.textContent=(`${voitur.marque} ${voitur.modele}`)
+    voitureMarqueEtModele.classList.add('px-5','font-bold','text-[#192B3F]')
+
+    const voitureStatut =document.createElement("p")
+    voiture.append(voitureStatut)
+    voitureStatut.textContent=(voitur.statut)
+    voitureStatut.classList.add('text-[#16835C]','px-5')
+
+    const prixJour =document.createElement("P")
+    voiture.append(prixJour)
+    prixJour.textContent=(`${voitur.prixJour} MAD / jour`)
+    prixJour.classList.add('text-[#2852E3]','font-bold','px-5','pb-5')
+  
+  });
+
+}
+
+
+function styleEtaps (){
 
   if(etapeActuelle==etaps[0]){
   
@@ -293,114 +577,6 @@ function styleEtaps (){
   }
 
 }
-
-affichage()
-récupiration()
- styleEtaps()
-
-function affichage(){
-  voitures.forEach(voitur => {
-  
-    const voiture =document.createElement("div")
-    listeVéhicules.append(voiture)
-    voiture.classList.add('border-1', 'border-gray-300', 'border-solid','rounded-xl')
-
-    const Sélection =document.createElement("div")
-    voiture.append(Sélection)
-    Sélection.classList.add('p-5')
-    Sélection.classList.add('flex','justify-between')
-    
-
-    const voiturModel =document.createElement("p")
-    Sélection.append(voiturModel)
-    voiturModel.textContent=(voitur.categorie)
-    voiturModel.classList.add('text-blue-700','bg-gray-200','w-20','rounded-md','text-center')
-
-    const voitureRadio =document.createElement("input")
-    Sélection.append(voitureRadio)
-    voitureRadio.classList.add('w-20')
-    voitureRadio.type='radio'
-    voitureRadio.value=voitur.id
-    voitureRadio.name="voiture"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    Sélection.addEventListener(("change"),(e) =>{
-      e.preventDefault()
-      voiture.classList.replace(('border-1','border-gray-300'),('border-2','border-blue-500'))
-      location(voitur)
-    
-      selectedConfig.voitureId = voitureRadio.value
-      selectedConfig.marqueModele=voitur.marque
-
-      
-    })
-
-    
-
-
-
-    const voitureMarqueEtModele =document.createElement("p")
-    voiture.append(voitureMarqueEtModele)
-    voitureMarqueEtModele.textContent=(`${voitur.marque} ${voitur.modele}`)
-    voitureMarqueEtModele.classList.add('px-5','font-bold','text-[#192B3F]')
-
-    const voitureStatut =document.createElement("p")
-    voiture.append(voitureStatut)
-    voitureStatut.textContent=(voitur.statut)
-    voitureStatut.classList.add('text-[#16835C]','px-5')
-
-    const prixJour =document.createElement("P")
-    voiture.append(prixJour)
-    prixJour.textContent=(`${voitur.prixJour} MAD / jour`)
-    prixJour.classList.add('text-[#2852E3]','font-bold','px-5','pb-5')
-    
-    function location (voitur){
-      résuméPrix.replaceChildren();
-      const marqueEtModele =document.createElement("h2")
-      résuméPrix.append(marqueEtModele)
-      marqueEtModele.textContent=(`${voitur.marque} ${voitur.modele}`)
-      marqueEtModele.classList.add('font-bold','mt-5')
-
-      const categoriEtPrix =document.createElement("p")
-      categoriEtPrix.textContent=(`${voitur.categorie} MAD / jour`)
-      résuméPrix.append(categoriEtPrix)
-      categoriEtPrix.classList.add('text-[#697C94]')
-      
-      const dates =document.createElement("p")
-      résuméPrix.append("dates")
-
-      const datedéb =document.createElement("p")
-      dates.append(datedéb)
-      datedéb.textContent=(selectedConfig.dateDebut)
-      
-
-
-    }
-
-
-
-
-  });
-
-}
-
-
-
 
 
 

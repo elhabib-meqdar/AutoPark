@@ -2,6 +2,125 @@ AutoPark --- Gestion du parc automobile
 
 
 
+
+AutoPark — Configurateur de location
+Application web front-end permettant aux clients de l'agence fictive Atlas Auto de configurer une demande de location de voiture en plusieurs étapes.
+Le projet est réalisé en HTML5, Tailwind CSS et JavaScript Vanilla (ES6). Il fonctionne entièrement dans le navigateur, sans backend. La confirmation simule l'envoi d'une demande de location.
+Fonctionnalités
+Affichage des véhicules disponibles et de leurs tarifs journaliers.
+Récupération des véhicules depuis localStorage, avec des données initiales si aucun véhicule n'est enregistré.
+Choix des dates de début et de fin de location.
+Calcul du nombre de jours avec les deux dates incluses.
+Choix du mode de récupération :
+À l'agence : aucun supplément.
+À l'aéroport : supplément fixe de 150 MAD.
+À une adresse : supplément fixe de 100 MAD.
+Affichage dynamique des champs correspondant au mode de récupération sélectionné.
+Ajout d'options :
+Siège bébé : 30 MAD par jour.
+Conducteur supplémentaire : 200 MAD par jour.
+Saisie et validation des coordonnées du client.
+Navigation entre les cinq étapes avec conservation des saisies.
+Récapitulatif détaillé avant confirmation.
+Mise à jour automatique du prix total.
+Sauvegarde et restauration de la configuration avec localStorage.
+Confirmation simulée et possibilité de recommencer le parcours.
+Interface responsive pour mobile, tablette et ordinateur.
+Technologies utilisées
+HTML5 : structure sémantique du formulaire.
+Tailwind CSS : mise en forme et responsive design.
+JavaScript Vanilla / ES6 : interactions, validation, calculs et manipulation du DOM.
+localStorage : stockage local des véhicules et de la configuration.
+Git et GitHub : gestion des versions et travail avec GitFlow.
+Installation et lancement
+Aucun serveur backend ni installation de dépendances n'est nécessaire.
+Cloner le dépôt :
+git clone URL_DU_DEPOT
+Ouvrir le dossier du projet :
+cd NOM_DU_DOSSIER
+Ouvrir index.html dans un navigateur.
+Il est également possible d'utiliser l'extension Live Server de Visual Studio Code pour lancer le projet localement.
+Remplacer URL_DU_DEPOT et NOM_DU_DOSSIER par les informations réelles du dépôt.
+Parcours utilisateur
+Le configurateur comporte cinq étapes. Une seule étape est affichée à la fois.
+Véhicule et dates : choix du véhicule disponible et de la période de location.
+Récupération : choix du mode de récupération et saisie des informations nécessaires.
+Options : sélection éventuelle du siège bébé et du conducteur supplémentaire.
+Coordonnées : saisie du nom complet, du téléphone et de l'adresse email.
+Récapitulatif : vérification des choix et du prix, puis confirmation de la demande.
+L'utilisateur peut revenir aux étapes précédentes pour modifier ses choix sans perdre les informations déjà saisies.
+Règles de calcul du prix
+Les dates de début et de fin sont incluses dans le calcul.
+Nombre de jours = différence entre les deux dates + 1
+
+Total =
+  nombre de jours
+  × (tarif journalier du véhicule
+     + supplément journalier du siège bébé
+     + supplément journalier du conducteur supplémentaire)
+  + frais fixes de récupération
+Tarifs des options et de récupération :
+Élément
+Tarif
+Siège bébé
+30 MAD / jour
+Conducteur supplémentaire
+200 MAD / jour
+Récupération à l'agence
+0 MAD
+Récupération à l'aéroport
+150 MAD une seule fois
+Livraison à une adresse
+100 MAD une seule fois
+Organisation du code
+Le JavaScript est organisé en modules ES6 afin de séparer les responsabilités. Exemple d'organisation à adapter aux noms de fichiers du projet :
+AutoPark/
+├── index.html
+├── README.md
+├── css/
+│ └── style.css
+└── js/
+    ├── main.js
+    ├── data.js
+    ├── display.js
+    ├── validation.js
+    └── calculations.js
+data.js : données des véhicules, tarifs et constantes.
+display.js : affichage des étapes, des champs et du récapitulatif.
+validation.js : validation des dates et des coordonnées.
+calculations.js : calcul du nombre de jours et du prix total.
+main.js : initialisation et coordination des événements.
+Stockage local
+L'application utilise localStorage pour :
+lire les véhicules enregistrés par la partie gestion du parc automobile ;
+charger des véhicules de démonstration si aucune donnée n'est disponible ;
+sauvegarder la configuration en cours ;
+restaurer cette configuration après un rafraîchissement ;
+supprimer la configuration sauvegardée lorsque l'utilisateur recommence.
+Les noms exacts des clés localStorage dépendent de leur définition dans le code JavaScript du projet.
+Gestion du projet — GitFlow
+Le projet suit une organisation GitFlow :
+main : version stable du projet.
+develop : branche d'intégration des fonctionnalités.
+feature/layout : structure HTML et interface responsive.
+feature/dynamic-form : formulaire dynamique et navigation.
+feature/price-calculation : calcul du prix et récapitulatif.
+Aucun commit direct n'est effectué sur main ou develop. Les fonctionnalités sont intégrées au moyen de Pull Requests après vérification.
+Le suivi des tâches est réalisé dans Jira avec les statuts :
+À faire
+En cours
+En revue
+Terminé
+Limites du projet
+Le projet est une application front-end de démonstration.
+Aucune donnée n'est envoyée à un serveur.
+La confirmation ne constitue pas une réservation réelle.
+Les données enregistrées dans localStorage restent propres au navigateur et à l'appareil utilisés.
+Auteur
+Projet pédagogique réalisé individuellement dans le cadre du développement de la deuxième partie d'AutoPark pour l'agence fictive Atlas Auto.
+
+
+
 1. Présentation
 
 AutoPark est une application web de gestion du parc automobile de l'agence fictive Atlas Auto. Elle permet de consulter les véhicules, d'ajouter de nouvelles voitures, de modifier leurs informations, de les supprimer et de suivre leur disponibilité.
